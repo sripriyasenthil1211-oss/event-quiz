@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event Quiz</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f2f2f2;
+}
+
+/* common box */
+.container{
+  max-width:420px;
+  margin:50px auto;
+  padding:20px;
+  border-radius:12px;
+  color:#fff;
+}
+
+.hidden{display:none;}
+
+input,button{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:none;
+  border-radius:6px;
+}
+
+button{
+  background:#4CAF50;
+  color:white;
+  font-size:16px;
+}
+
+/* ✅ PERFECT RADIO ALIGNMENT */
+.quiz-box label{
+  display:grid;
+  grid-template-columns: 22px auto; /* bullet | text */
+  column-gap:12px;
+  align-items:center;
+  margin-left:25px;
+  margin-bottom:6px;
+}
+
+.quiz-box input[type="radio"]{
+  margin:0;
+  transform:scale(1.1);
+}
+
+/* result */
+.result{font-size:14px;margin:6px 0;}
+.correct{color:#00ff9c;}
+.wrong{color:#ffb3b3;}
+</style>
+</head>
+
+<body>
+
+<!-- ================= REGISTER PAGE ================= -->
+<div class="container" id="register"
+style="background:linear-gradient(135deg,#7b2ff7,#9f44d3);">
+
+<h2 align="center">REGISTRATION FORM</h2>
+
+<input id="regno" placeholder="Registration Number">
+<input id="name" placeholder="Your Name">
+<input id="email" placeholder="Your Email">
+<input id="college" placeholder="Your College">
+
+<button onclick="startQuiz()">Submit</button>
+</div>
+
+<!-- ================= QUIZ PAGE ================= -->
+<div class="container hidden" id="quiz"
+style="background:linear-gradient(135deg,#00bcd4,#2196f3);">
+
+<h3 align="center">Programming Languages Quiz</h3>
+
+<div class="quiz-box">
+
+<p>1. Which language is known as the mother of all programming languages?</p>
+<label><input type="radio" name="q1" value="C">C</label>
+<label><input type="radio" name="q1" value="Java">Java</label>
+<label><input type="radio" name="q1" value="Python">Python</label>
+
+<p>2. Which language is primarily used for web development?</p>
+<label><input type="radio" name="q2" value="JavaScript">JavaScript</label>
+<label><input type="radio" name="q2" value="Java">Java</label>
+<label><input type="radio" name="q2" value="C++">C++</label>
+
+<p>3. Which language is used for AI & ML?</p>
+<label><input type="radio" name="q3" value="Python">Python</label>
+<label><input type="radio" name="q3" value="JavaScript">JavaScript</label>
+<label><input type="radio" name="q3" value="Ruby">Ruby</label>
+
+<p>4. Which language is known for simplicity?</p>
+<label><input type="radio" name="q4" value="Python">Python</label>
+<label><input type="radio" name="q4" value="Java">Java</label>
+<label><input type="radio" name="q4" value="C">C</label>
+
+<p>5. Which language is used for iOS development?</p>
+<label><input type="radio" name="q5" value="Swift">Swift</label>
+<label><input type="radio" name="q5" value="Java">Java</label>
+<label><input type="radio" name="q5" value="Ruby">Ruby</label>
+
+<p>6. Which language is widely used for system programming?</p>
+<label><input type="radio" name="q6" value="C">C</label>
+<label><input type="radio" name="q6" value="Java">Java</label>
+<label><input type="radio" name="q6" value="PHP">PHP</label>
+
+</div>
+
+<button onclick="submitQuiz()">Submit</button>
+</div>
+
+<!-- ================= RESULT PAGE ================= -->
+<div class="container hidden" id="result"
+style="background:linear-gradient(135deg,#00acc1,#0097a7);">
+
+<h3 align="center">Thank You for Your Submission!</h3>
+
+<p id="userinfo"></p>
+<div id="answers"></div>
+<h4 id="score"></h4>
+
+</div>
+
+<script>
+const correctAns={
+  q1:"C",
+  q2:"JavaScript",
+  q3:"Python",
+  q4:"Python",
+  q5:"Swift",
+  q6:"C"
+};
+
+function startQuiz(){
+  document.getElementById("register").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+}
+
+function submitQuiz(){
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  let score=0, output="";
+
+  for(let q in correctAns){
+    let sel=document.querySelector(`input[name=${q}]:checked`);
+    if(sel){
+      if(sel.value===correctAns[q]){
+        score++;
+        output+=`<div class="result correct">${q}: ${sel.value} (Correct)</div>`;
+      }else{
+        output+=`<div class="result wrong">${q}: ${sel.value} (Incorrect - Correct: ${correctAns[q]})</div>`;
+      }
+    }else{
+      output+=`<div class="result wrong">${q}: Not Answered (Correct: ${correctAns[q]})</div>`;
+    }
+  }
+
+  document.getElementById("answers").innerHTML=output;
+  document.getElementById("score").innerText=`Your Score: ${score}/6`;
+
+  document.getElementById("userinfo").innerHTML=
+  `Reg No: ${regno.value}<br>
+   Name: ${name.value}<br>
+   Email: ${email.value}<br>
+   College: ${college.value}`;
+}
+</script>
+
+</body>
+</html>
